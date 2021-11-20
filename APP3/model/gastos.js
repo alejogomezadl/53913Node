@@ -6,7 +6,8 @@ const gastosSchema = new mgs.Schema(
     {
             descripcion:String,
             valor:Number,
-            fecha:String
+            fecha:String,
+            id:Number
     }
 
 )

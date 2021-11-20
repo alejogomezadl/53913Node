@@ -11,3 +11,4 @@ mgs.connect("mongodb://localhost:27017/financiera" ,  (err, db) => {
 }  )
 
 module.exports = mgs
+
