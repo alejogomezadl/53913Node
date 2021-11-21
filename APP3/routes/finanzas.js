@@ -1,4 +1,4 @@
-const { response } = require('express');
+
 const express = require('express');
 
 const mgs = require("mongoose")
@@ -74,6 +74,47 @@ routes.route("/actualizar").put((req, resp, next) => {
         })
 
 })
+
+
+
+routes.route("/borrar/:id").delete((req, resp, next) => {
+
+    mgs.model("gastos").deleteOne({
+        "id": req.params.id
+    }, (err, del) => {
+        console.log(del);
+        if (del.deletedCount > 0) {
+            resp.json({ "resultado": "Eliminado exitosamente" })
+        }
+    })
+})
+
+routes.route("/consulta").get((req, resp, next) => {
+
+
+    mgs.model("gastos").aggregate([
+        {
+            $match: {
+                "fecha": req.query.fecha
+            }
+        },
+        {
+            $group: {
+                _id: { "fecha": "$fecha" },
+                total: { $sum: "$valor" }
+            }
+        }
+    ], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        resp.json(result)
+    }
+    )
+})
+
+
+
 
 
 
